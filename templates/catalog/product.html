@@ -1,0 +1,57 @@
+{% extends "catalog.html" %}
+
+{% load catalog_filters %}
+
+{% block content %}
+
+{% block style %}
+{% endblock %}
+
+<div class="product-image">
+    <img src="" alt="{{product.name}}" width="200">
+</div>
+
+<div>
+    <h2>{{product.name}}</h2>
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            <strong>Brand:</strong><em>{{product.brand}}</em>
+        </li>
+
+        <li class="list-group-item">
+            SKU: {{product.sku}}
+        </li>
+
+        <li class="list-group-item">
+            In categor{{ categories.count|pluralize:"y,ies" }}:
+            {% for c in categories %}
+            <a href="{{c.get_absolute_url}}">{{c.name}}</a>
+            {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        
+        </li>
+
+        {% if product.sale_price %}
+        <li class="list-group-item">
+                was: {{product.old_price}}
+        </li>
+        <li class="list-group-item">
+            now: {{product.price | currency}}
+        </li>
+        {% else %}
+        <li class="list-group-item">
+            price: {{product.price | currency}}
+        </li>
+        {% endif %}
+    </ul>
+    <form action="." method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Add To Cart" name="submit" alt="Add To Cart" class="btn btn-info m-2">
+    </form>
+    <p>{{product.description}}</p>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block site_wrapper %}
+
+<div class="grid-container">
+    <div class="header">
+        <h1>{{site_name}}</h1>
+        <div class="navigation">
+            {% include './tags/navigation.html' %}
+        </div>
+        <div class="cart">[cart link]</div>
+    </div>
+    <div class="sidebar">
+        <div class="search">
+            [search]
+        </div>
+        <div class="category">
+            {% include './tags/category_list.html' %}
+        </div>
+    </div>
+    <div class="content">[content]{% block content %}{% endblock %}</div>
+    <div class="footer">[footer]</div>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'catalog.html' %}
+{% load catalog_filters %}
+
+{% block content %}
+
+{% if cart_item_count %}
+
+<table class="table" summary="Your shopping cart" id="shopping_cart">
+    <h1>{{page_title}}</h1>
+    <h4 class="bg-warning">There {{ cart_item_count|pluralize:'is,are' }} {{cart_item_count}} {{ cart_item_count|pluralize:'item, items'}} in your cart.</h4>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th></th>
+            <th></th>
+            <th>Totoal</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% if cart_items %}
+            {% for ci in cart_items %}
+            <tr>
+                <td><a href="{{ci.get_absolute_url}}">{{ci.name}}</a></td>
+
+                <td>{{ci.price | currency}}</td>
+
+                <td>
+                    <form action="." method="post">
+                        {% csrf_token %}
+                        <label for="quantity"></label>
+                        <input type="text" id="quantity" name="quantity" size="1" class="form-control" value="{{ci.quantity}}">
+                        <input type="hidden" name="item_id" value="{{ci.id}}">
+                </td>
+                    
+                <td>
+                        <input type="submit" name="submit" value="Upload" class="btn btn-primary">
+                    </form>
+                </td>
+
+                <td>
+                    <form action="." method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="item_id" value="{{ci.id}}">
+                        <input type="submit" name="submit" value="Remove" class="btn btn-danger">
+                    </form>
+                </td>
+
+                <td>{{ci.total | currency}}</td>
+
+            </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <th class="bg-success text-light">Cart Subtotal: </th>
+            <th class="bg-success text-light">{{cart_subtotal | currency }}</th>
+        </tr>
+    </tfoot>
+</table>
+{% else %}
+<h3>Your cart is empty</h3>
+{% endif %}
+
+{% endblock %}

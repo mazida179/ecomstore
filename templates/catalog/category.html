@@ -1,0 +1,23 @@
+{% extends "catalog.html" %}
+{% block content %}
+<p>Category</p>
+
+<div class="container-fluid">
+    <div class="row">
+        {% for p in products %}
+        <div class="col col-md-4 col-lg-6 m-3">
+            <div class="card">
+                <div class="card-header">header</div>
+                <img src="" class="card-img-top" alt="image">
+                <div class="card-body">
+                    <h5 class="card-title">{{p.name}}</h5>
+                    <p class="card-text ">{{p.meta_description}}</p>
+                    <a href="{{p.get_absolute_url}}" class="stretched-link">Add to cart</a>
+                    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
